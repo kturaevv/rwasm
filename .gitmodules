@@ -1,0 +1,10 @@
+[submodule "extern/wabt"]
+	url = https://github.com/WebAssembly/wabt
+	path = extern/wabt
+    shallow = true
+    depth = 1
+[submodule "extern/binaryen"]
+	path = extern/binaryen
+	url = https://github.com/WebAssembly/binaryen
+    shallow = true
+    depth = 1
