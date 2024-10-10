@@ -44,7 +44,8 @@ check_tool c++ 12.0.0 false ||
     exit_status=1
 } # clang does not work for header_units exercise
 
-# build tools
+# tools
+check_tool twiggy
 check_tool make
 check_tool ninja
 check_tool cmake 3.22.0

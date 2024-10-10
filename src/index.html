@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebAssembly Adder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-xl mb-4">WebAssembly Adder</h1>
+        <div class="mb-4">
+            <input type="number" id="num1" class="border px-2 py-1 w-16 text-center" placeholder="0">
+            <span class="mx-2">+</span>
+            <input type="number" id="num2" class="border px-2 py-1 w-16 text-center" placeholder="0">
+            <button id="addBtn" class="ml-2 px-4 py-1 bg-gray-200 hover:bg-gray-300">Add</button>
+        </div>
+        <div id="result" class="text-lg"></div>
+    </div>
+    <script type="module">
+        const wasm_path = "../target/output.wasm";
+
+        WebAssembly.instantiateStreaming(fetch(wasm_path), {})
+            .then(({ instance }) => {
+                const addBtn = document.getElementById('addBtn');
+                const num1Input = document.getElementById('num1');
+                const num2Input = document.getElementById('num2');
+                const resultDiv = document.getElementById('result');
+                addBtn.addEventListener('click', () => {
+                    const num1 = parseInt(num1Input.value) || 0;
+                    const num2 = parseInt(num2Input.value) || 0;
+                    const sum = instance.exports.add(num1, num2);
+                    resultDiv.textContent = `Result: ${sum}`;
+                });
+            })
+            .catch(error => {
+                console.error('Error loading WASM:', error);
+                document.getElementById('result').textContent = 'Error loading WebAssembly module';
+            });
+    </script>
+</body>
+</html>
